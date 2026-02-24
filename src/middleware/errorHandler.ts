@@ -10,6 +10,7 @@ interface OperationalError extends Error {
 function isOperational(err: OperationalError): boolean {
   if (err.statusCode != null && err.statusCode >= 400 && err.statusCode < 500) return true;
   if (err.isOperational === true) return true;
+  if (err.name === 'HttpError') return true;
   return false;
 }
 
