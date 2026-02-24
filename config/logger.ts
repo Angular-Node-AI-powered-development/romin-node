@@ -1,16 +1,23 @@
-const winston = require('winston');
-const path = require('path');
+import winston from 'winston';
+import path from 'path';
+import config from 'config';
 
-let loggerConfig = { level: 'info', dir: 'logs' };
+interface LoggerConfig {
+  level: string;
+  dir: string;
+}
+
+let loggerConfig: LoggerConfig = { level: 'info', dir: 'logs' };
 try {
-  const config = require('config');
-  if (config.has('logger')) loggerConfig = config.get('logger');
-} catch (_) {}
+  if (config.has('logger')) loggerConfig = config.get('logger') as LoggerConfig;
+} catch {
+  // use defaults
+}
 
 const logDir = path.isAbsolute(loggerConfig.dir)
   ? loggerConfig.dir
   : path.join(process.cwd(), loggerConfig.dir);
-const level = process.env.LOG_LEVEL || loggerConfig.level || 'info';
+const level = process.env.LOG_LEVEL ?? loggerConfig.level ?? 'info';
 
 const logger = winston.createLogger({
   level,
@@ -37,4 +44,4 @@ const logger = winston.createLogger({
   ],
 });
 
-module.exports = logger;
+export default logger;

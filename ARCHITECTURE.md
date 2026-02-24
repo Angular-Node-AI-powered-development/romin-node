@@ -1,6 +1,6 @@
 # Architecture
 
-This project follows a **modular monolith** design: a single deployable application with feature-based modules and shared configuration, middleware, and utilities. The approach is inspired by practices from *"Mastering Node.js: The Ultimate Guide to a Clean and Scalable Monolithic Architecture"* (Bilal Khursheed).
+This project follows a **modular monolith** design: a single deployable application with feature-based modules and shared configuration, middleware, and utilities. The codebase uses **TypeScript** and **ESM** (ECMAScript modules). The approach is inspired by practices from *"Mastering Node.js: The Ultimate Guide to a Clean and Scalable Monolithic Architecture"* (Bilal Khursheed).
 
 ## Design rationale
 
@@ -15,20 +15,20 @@ Every feature module contains:
 
 | File | Responsibility |
 |------|-----------------|
-| `<feature>.routes.js` | Express router; mounts endpoints and wires validation + controller |
-| `<feature>.controller.js` | Request/response handling; calls service; returns JSON |
-| `<feature>.service.js` | Business logic |
-| `<feature>.model.js` | Data schema / queries (or placeholder if no DB) |
-| `<feature>.validation.js` | Request validation (params, body, query) |
+| `<feature>.routes.ts` | Express router; mounts endpoints and wires validation + controller |
+| `<feature>.controller.ts` | Request/response handling; calls service; returns JSON |
+| `<feature>.service.ts` | Business logic |
+| `<feature>.model.ts` | Data schema / queries (or placeholder if no DB) |
+| `<feature>.validation.ts` | Request validation (params, body, query) |
 
-Modules are registered explicitly in `src/app.js` (e.g. `app.use('/api/health', healthRoutes)`). There is no cross-module require of controllers or services; orchestration across features, if needed later, can live in a dedicated module or thin orchestration layer that depends on services.
+Modules are registered explicitly in `src/app.ts` (e.g. `app.use('/api/health', healthRoutes)`). There is no cross-module require of controllers or services; orchestration across features, if needed later, can live in a dedicated module or thin orchestration layer that depends on services.
 
 ## Configuration
 
 - **config/default.json** — Application defaults (ports, DB settings, logger level). Secrets are overridden via environment variables (see `.env.example`).
-- **config/db.js** — PostgreSQL pool (using `pg`); exports `pool`, `connect`, and `close` for startup/shutdown.
-- **config/logger.js** — Winston logger (console + file in `logs/`).
+- **config/db.ts** — PostgreSQL pool (using `pg`); exports `pool`, `connect`, and `close` for startup/shutdown.
+- **config/logger.ts** — Winston logger (console + file in `logs/`).
 
 ## Scaling
 
-The codebase scales by adding new modules under `src/modules/` and mounting their routes in `app.js`. Existing modules remain isolated. Optional future steps include a repository layer per module (e.g. `<feature>.repository.js`) for DB access, or alignment with TypeScript and migration tooling if the team standardizes on that.
+The codebase scales by adding new modules under `src/modules/` and mounting their routes in `app.ts`. Existing modules remain isolated. Optional future steps include a repository layer per module (e.g. `<feature>.repository.ts`) for DB access.
