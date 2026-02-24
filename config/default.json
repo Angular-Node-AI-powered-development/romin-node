@@ -1,0 +1,20 @@
+{
+  "server": {
+    "port": 3000,
+    "env": "development"
+  },
+  "db": {
+    "host": "localhost",
+    "port": 5432,
+    "database": "romin_db",
+    "user": "postgres",
+    "password": "",
+    "max": 20,
+    "idleTimeoutMillis": 30000,
+    "connectionTimeoutMillis": 2000
+  },
+  "logger": {
+    "level": "info",
+    "dir": "logs"
+  }
+}

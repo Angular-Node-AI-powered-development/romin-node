@@ -1,0 +1,27 @@
+{
+  "name": "romin-node",
+  "version": "1.0.0",
+  "description": "Modular monolithic Node.js backend with Express and PostgreSQL",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node tests/health.integration.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["express", "postgresql", "modular-monolith"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.9",
+    "express": "^4.21.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.0",
+    "winston": "^3.14.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
